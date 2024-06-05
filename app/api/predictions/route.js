@@ -15,7 +15,6 @@ export async function POST(request) {
       "The REPLICATE_API_TOKEN environment variable is not set. See README.md for instructions on how to set it."
     );
   }
-
   const { prompt } = await request.json();
 
   const options = {
