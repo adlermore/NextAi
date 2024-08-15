@@ -1,58 +1,29 @@
-"use client";
+'use client'
 
-import { useState } from "react";
-import Image from "next/image";
 import "./globals.css";
-import { HashLoader } from "react-spinners";
-
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Heading,
+  SimpleGrid,
+  Text,
+} from "@chakra-ui/react";
 
 export default function Home() {
-  const [prediction, setPrediction] = useState(null);
-  const [error, setError] = useState(null);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const response = await fetch("/api/predictions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        prompt: e.target.prompt.value,
-      }),
-    });
-    let prediction = await response.json();
-    if (response.status !== 201) {
-      setError(prediction.detail);
-      return;
-    }
-    setPrediction(prediction);
-
-    while (
-      prediction.status !== "succeeded" &&
-      prediction.status !== "failed"
-    ) {
-      await sleep(1000);
-      const response = await fetch("/api/predictions/" + prediction.id);
-      prediction = await response.json();
-      if (response.status !== 200) {
-        setError(prediction.detail);
-        return;
-      }
-      console.log({ prediction });
-      setPrediction(prediction);
-    }
-  };
-
   return (
     <div className="container max-w-2xl mx-auto p-5">
       <h1 className="py-6 text-center  font-Menlo color-red font-bold text-2xl">
-        Generate Image with Ai
+        Dear Zhan Generate Image using Ai
       </h1>
-      <form className="w-full form flex" onSubmit={handleSubmit}>
+      <form className="w-full form flex">
         <input
           type="text"
+
+
+          
           className="flex-grow"
           name="prompt"
           placeholder="Enter a prompt to display an image"
@@ -61,26 +32,50 @@ export default function Home() {
           Generate 🪄
         </button>
       </form>
-      {error && <div>{error}</div>}
-      {prediction && (
-        <>
-          {prediction.output ? (
-            <div className="image-wrapper mt-5">
-              <Image
-                fill
-                src={prediction.output[prediction.output.length - 1]}
-                alt="output"
-                sizes="100vw"
-              />
-            </div>
-          ) : (
-            <div className="loader">
-              <HashLoader color="#36d7b7" />
-            </div>
-          )}
-          <p className="py-3 text-sm opacity-50">status: {prediction.status}</p>
-        </>
-      )}
+      <SimpleGrid
+        spacing={4}
+        templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
+      >
+        <Card>
+          <CardHeader>
+            <Heading size="md"> Customer dashboard</Heading>
+          </CardHeader>
+          <CardBody>
+            <Text>
+              View a summary of all your customers over the last month.
+            </Text>
+          </CardBody>
+          <CardFooter>
+            <Button>View here</Button>
+          </CardFooter>
+        </Card>
+        <Card>
+          <CardHeader>
+            <Heading size="md"> Customer dashboard</Heading>
+          </CardHeader>
+          <CardBody>
+            <Text>
+              View a summary of all your customers over the last month.
+            </Text>
+          </CardBody>
+          <CardFooter>
+            <Button>View here</Button>
+          </CardFooter>
+        </Card>
+        <Card>
+          <CardHeader>
+            <Heading size="md"> Customer dashboard</Heading>
+          </CardHeader>
+          <CardBody>
+            <Text>
+              View a summary of all your customers over the last month.
+            </Text>
+          </CardBody>
+          <CardFooter>
+            <Button>View here</Button>
+          </CardFooter>
+        </Card>
+      </SimpleGrid>
     </div>
   );
 }
