@@ -61,7 +61,6 @@ export default function Home() {
           Generate 🪄
         </button>
       </form>
-      {error && <div>{error}</div>}
       {prediction && (
         <>
           {prediction.output ? (
@@ -81,6 +80,7 @@ export default function Home() {
           <p className="py-3 text-sm opacity-50">status: {prediction.status}</p>
         </>
       )}
+      {error && <div>Oops, something went wrong 🥲{error}</div>}
     </div>
   );
 }
